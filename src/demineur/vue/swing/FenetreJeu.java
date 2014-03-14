@@ -1,0 +1,128 @@
+package demineur.vue.swing;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+
+import demineur.controleur.CtrlDemineur;
+import demineur.vue.IObservable;
+
+public class FenetreJeu extends JFrame implements IObservable {
+	private CtrlDemineur monCt;
+	private JTextField jtfTaille;
+	private JTextField message;
+	private CaseDemineur[][] cases;
+	private JPanel panelDemineur;
+	private final ImageIcon drapeau = new ImageIcon("images/drapeau.png");
+	private final ImageIcon bombe = new ImageIcon("images/bombe.png");
+
+	public FenetreJeu(CtrlDemineur ctl) {
+		super("Demineur");
+		this.monCt = ctl;
+
+		JLabel lTaille = new JLabel("Choisir taille : ");
+		this.jtfTaille = new JTextField(6);
+		JButton bOk = new JButton("OK");
+		bOk.setActionCommand("valid");
+
+		JPanel pSaisie = new JPanel(new FlowLayout());
+		pSaisie.add(lTaille);
+		pSaisie.add(jtfTaille);
+		pSaisie.add(bOk);
+
+		bOk.addActionListener(monCt);
+
+		JPanel pMessage = new JPanel(new FlowLayout());
+		message = new JTextField(50);
+		pMessage.add(message);
+
+		this.add(pSaisie, BorderLayout.NORTH);
+		panelDemineur = new JPanel();
+		this.add(panelDemineur, BorderLayout.CENTER);
+		this.add(pMessage, BorderLayout.SOUTH);
+
+		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+		this.pack();
+		this.setSize(400, 500);
+		this.setVisible(true);
+	}
+
+	private JPanel createPanelDemineur() {
+		int taille = monCt.getModele().getTaille();
+		this.cases = new CaseDemineur[taille][taille];
+		JPanel pTable = new JPanel(new GridLayout(taille, taille));
+
+		for (int i = 0; i < this.getTailleSaisie(); i++) {
+			for (int j = 0; j < this.getTailleSaisie(); j++) {
+				cases[i][j] = new CaseDemineur(i, j);
+
+				if (monCt.getModele().estDrapeau(i, j)) // si c'est un drapeau
+					cases[i][j].setIcon(drapeau); // on affiche un drapeau
+
+				if (monCt.getModele().estDecouvert(i, j)
+						&& !monCt.getModele().getTableauMines()[i][j]) {
+					cases[i][j].setText(""
+							+ monCt.getModele().getTableauVisible()[i][j]);
+					cases[i][j].setBackground(Color.white);
+					if (cases[i][j].getText().equals("0"))
+						cases[i][j].setText("");
+				}
+
+				if (monCt.getPerdu()
+						&& monCt.getModele().getTableauMines()[i][j]) {
+					cases[i][j].setIcon(bombe);
+				}
+				cases[i][j].setPreferredSize(new Dimension(45, 45));
+				cases[i][j].addMouseListener(monCt);
+				pTable.add(cases[i][j]);
+			}
+		}
+		if (monCt.getPerdu()) {
+			for (int i = 0; i < this.getTailleSaisie(); i++) {
+				for (int j = 0; j < this.getTailleSaisie(); j++) {
+					cases[i][j].removeMouseListener(monCt);
+				}
+			}
+		}
+		return pTable;
+	}
+
+	public int getTailleSaisie() {
+		return Integer.parseInt(jtfTaille.getText());
+	}
+
+	public void afficheErreur(String s) {
+		this.message.setText(s);
+	}
+
+	public void afficheModele() {
+		panelDemineur.removeAll();
+		panelDemineur.add(this.createPanelDemineur());
+		panelDemineur.validate();
+		this.validate();
+	}
+
+	public void afficheFin(String s) {
+		this.message.setText(s);
+	}
+
+	public CaseDemineur[][] getCases() {
+		return cases;
+	}
+
+	public void setCases(CaseDemineur[][] cases) {
+		this.cases = cases;
+	}
+
+}
