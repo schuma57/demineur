@@ -52,9 +52,10 @@ public class FenetreJeu extends JFrame implements IObservable {
 		this.add(pMessage, BorderLayout.SOUTH);
 
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
 
 		this.pack();
-		this.setSize(400, 500);
+		this.setSize(500, 600);
 		this.setVisible(true);
 	}
 
@@ -70,17 +71,14 @@ public class FenetreJeu extends JFrame implements IObservable {
 				if (monCt.getModele().estDrapeau(i, j)) // si c'est un drapeau
 					cases[i][j].setIcon(drapeau); // on affiche un drapeau
 
-				if (monCt.getModele().estDecouvert(i, j)
-						&& !monCt.getModele().getTableauMines()[i][j]) {
-					cases[i][j].setText(""
-							+ monCt.getModele().getTableauVisible()[i][j]);
+				if (monCt.getModele().estDecouvert(i, j) ) {
+					cases[i][j].setText(""+ monCt.getModele().getTableauVisible()[i][j]);
 					cases[i][j].setBackground(Color.white);
 					if (cases[i][j].getText().equals("0"))
 						cases[i][j].setText("");
 				}
 
-				if (monCt.getPerdu()
-						&& monCt.getModele().getTableauMines()[i][j]) {
+				if (monCt.getPerdu() && monCt.getModele().getTableauMines()[i][j]) {
 					cases[i][j].setIcon(bombe);
 				}
 				cases[i][j].setPreferredSize(new Dimension(45, 45));

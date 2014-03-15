@@ -12,6 +12,5 @@ public class Principale {
 		//IObservable vue = new AwtFenetreJeu(controleur);
 		
 		controleur.setVue(vue);
-
 	}
 }

@@ -22,7 +22,11 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 		String s = ae.getActionCommand();
 
 		if (s.equals("valid")) {
-			this.modele = new Demineur(vue.getTailleSaisie());
+            try{
+			    this.modele = new Demineur(vue.getTailleSaisie());
+            }catch (IllegalArgumentException e){
+                vue.afficheErreur(""+e);
+            }
 			vue.afficheModele();
 		}
 	}
@@ -63,7 +67,7 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 			}
 
 			if (modele.gagne())
-				vue.afficheFin("Vous avez Gagné !!");
+				vue.afficheFin("Vous avez Gagnï¿½ !!");
 
 			vue.afficheModele();
 		}
@@ -71,25 +75,19 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent ev) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent ev) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent ev) {
 
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void mouseReleased(MouseEvent ev) {
 	}
 
 }

@@ -4,53 +4,24 @@ import java.util.GregorianCalendar;
 import java.util.Random;
 
 public class Demineur {
-	/**
-	 * Taille du démineur (carré)
-	 */
 	private int taille;
-
-	/**
-	 * Le tableau des mines
-	 */
 	private boolean tableauMines[][];
-
-	/**
-	 * Le tableau d'affichage des nombres de mines adjacentes
-	 */
-	private char tableauVisible[][];
-
-	/**
-	 * Constante indiquanr que le joueur a placé un drapeau "attention bombe"
-	 */
+	private char tableauVisible[][]; //nombres de mines adjacentes
 	private final static char DRAPEAU='d';
-	
-	/**
-	 * Constante indiquant que la case n'a pas encore été cliquée
-	 */
 	private final static char CACHE=' ';
 	
-	/**
-	 * Constructeur par défaut : démineur 10x10
-	 */
+
 	public Demineur() {
 
 		this(10);
 	}
 
-	/**
-	 * Constructeur avec choix de la taille
-	 * @param taille la taille du démineur
-	 */
 	public Demineur(int taille) {
 
 		this.setTaille(taille);
 		this.initialiseTableaux();
 	}
 
-	/**
-	 * Initialisation du tableau de mines
-	 * et du tableau visible
-	 */
 	private void initialiseTableaux() {
 		
 		this.tableauMines = new boolean[this.taille][this.taille];
@@ -76,7 +47,7 @@ public class Demineur {
 	private void setTaille(int taille) {
 
 		if (taille < 5 || taille > 15) {
-			throw new IllegalArgumentException("Taille autorisée : entre 5 et 15");
+			throw new IllegalArgumentException("Taille autorisee : entre 5 et 15");
 		} else {
 			this.taille = taille;
 		}
@@ -95,9 +66,9 @@ public class Demineur {
 	}
 
 	/**
-	 * Switch Drapeau/Case non jouée 
-	 * @param l ligne jouée
-	 * @param c colonne jouée
+	 * Switch Drapeau/Case non jouee
+	 * @param l ligne jouee
+	 * @param c colonne jouee
 	 */
 	public void setDrapeau(int l, int c) {
 		
@@ -109,16 +80,13 @@ public class Demineur {
 		}
 		else {
 			// l'interface doit faire en sorte que cela n'arrive jamais !
-			throw new RuntimeException("Pose d'un drapeau sur une case non autorisée !!!");
+			throw new RuntimeException("Pose d'un drapeau sur une case non autorisee !!!");
 		}
 	}
 
 	/**
-	 * Après une sélection de case, affichage du nombre de bombes adjacentes puis,
-	 * si ce nombre est 0, découverte de toutes les cases adjacentes qui ont 0 bombes voisines
-	 *  
-	 * @param y ligne jouée
-	 * @param x colonne jouée
+	 * @param y ligne jouee
+	 * @param x colonne jouee
 	 * @return faux si boum !
 	 */
 	public boolean decouvreTable(int y, int x) {
@@ -131,7 +99,7 @@ public class Demineur {
 		int nb = this.nombreMinesAdjacentes(y, x);
 		this.tableauVisible[y][x] = String.valueOf(nb).charAt(0);
 		
-		// Si le nombre de mines autour est 0, on déploie le tableau jusqu'à arriver
+		// Si le nombre de mines autour est 0, on deploie le tableau jusqu'a arriver
 		// en bordure de bombes
 		if (nb == 0) {
 			for (int l = y-1; l <= y + 1; l++) {
@@ -146,9 +114,9 @@ public class Demineur {
 	}
 
 	/**
-	 * Calcul du nombre de mines adjacentes à la case
-	 * @param y ligne jouée
-	 * @param x colonne jouée
+	 * Calcul du nombre de mines adjacentes a la case
+	 * @param y ligne jouee
+	 * @param x colonne jouee
 	 * @return le nombre de mines
 	 */
 	private int nombreMinesAdjacentes(int y, int x) {
@@ -167,8 +135,8 @@ public class Demineur {
 
 	/**
 	 * Permet de savoir si on est sorti de la table
-	 * @param l ligne jouée
-	 * @param c colonne jouée
+	 * @param l ligne jouee
+	 * @param c colonne jouee
 	 * @return vrai si on est encore dans la table
 	 */
 	private boolean inDemineur(int l, int c) {
@@ -177,9 +145,9 @@ public class Demineur {
 	}
 	
 	/**
-	 * Test de la table pour voir si tout est découvert
+	 * Test de la table pour voir si tout est decouvert
 	 * 
-	 * @return vrai si le joueur a gagné
+	 * @return vrai si le joueur a gagne
 	 */
 	public boolean gagne() {
 		
@@ -199,9 +167,9 @@ public class Demineur {
 	}
 
 	/**
-	 * La case a-t-elle déjà été jouée ?
-	 * @param l ligne jouée
-	 * @param c colonne jouée
+	 * La case a-t-elle deja ete jouee ?
+	 * @param l ligne jouee
+	 * @param c colonne jouee
 	 * @return vrai si la case n'est plus jouable
 	 */
 	public boolean estDecouvert(int l, int c) {
@@ -212,8 +180,8 @@ public class Demineur {
 	
 	/**
 	 * La case contient-elle un drapeau ?
-	 * @param l ligne jouée
-	 * @param c colonne jouée
+	 * @param l ligne jouee
+	 * @param c colonne jouee
 	 * @return vrai s'il y a un drapeau sur la case
 	 */
 	public boolean estDrapeau(int l, int c) {
@@ -223,7 +191,7 @@ public class Demineur {
 		
 	public String toString() {
 
-		String s = "démineur taille " + this.taille + "\n\n";
+		String s = "demineur taille " + this.taille + "\n\n";
 		s += tableBombesToString();
 
 		return s;
