@@ -6,13 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import demineur.controleur.CtrlDemineur;
 import demineur.vue.IObservable;
@@ -20,7 +14,6 @@ import demineur.vue.IObservable;
 public class FenetreJeu extends JFrame implements IObservable {
 	private CtrlDemineur monCt;
 	private JTextField jtfTaille;
-	private JTextField message;
 	private CaseDemineur[][] cases;
 	private JPanel panelDemineur;
 	private final ImageIcon drapeau = new ImageIcon("images/drapeau.png");
@@ -43,8 +36,6 @@ public class FenetreJeu extends JFrame implements IObservable {
 		bOk.addActionListener(monCt);
 
 		JPanel pMessage = new JPanel(new FlowLayout());
-		message = new JTextField(35);
-		pMessage.add(message);
 
 		this.add(pSaisie, BorderLayout.NORTH);
 		panelDemineur = new JPanel();
@@ -101,7 +92,8 @@ public class FenetreJeu extends JFrame implements IObservable {
 	}
 
 	public void afficheErreur(String s) {
-		this.message.setText(s);
+        JOptionPane popup = new JOptionPane();
+        popup.showMessageDialog(null, s , "Erreur", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void afficheModele() {
@@ -112,7 +104,8 @@ public class FenetreJeu extends JFrame implements IObservable {
 	}
 
 	public void afficheFin(String s) {
-		this.message.setText(s);
+        JOptionPane popup = new JOptionPane();
+        popup.showMessageDialog(null, s, "Fin partie", JOptionPane.WARNING_MESSAGE);
 	}
 
 }
