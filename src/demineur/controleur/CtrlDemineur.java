@@ -1,10 +1,6 @@
 package demineur.controleur;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 import javax.swing.JButton;
 
@@ -12,7 +8,7 @@ import demineur.Demineur;
 import demineur.vue.IObservable;
 import demineur.vue.swing.CaseDemineur;
 
-public class CtrlDemineur implements ActionListener, MouseListener {
+public class CtrlDemineur implements ActionListener, MouseListener, KeyListener {
 	private Demineur modele;
 	private IObservable vue;
 	private boolean perdu;
@@ -83,11 +79,29 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseExited(MouseEvent ev) {
-
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent ev) {
+	public void mouseReleased(MouseEvent ke) {
 	}
 
+    @Override
+    public void keyReleased(KeyEvent ke) {
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+            try{
+                this.modele = new Demineur(vue.getTailleSaisie());
+            }catch (IllegalArgumentException e){
+                vue.afficheErreur(e.getMessage());
+            }
+            vue.afficheModele();
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent ke) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke) {
+    }
 }

@@ -34,6 +34,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 		pSaisie.add(bOk);
 
 		bOk.addActionListener(monCt);
+        jtfTaille.addKeyListener(monCt);
 
 		JPanel pMessage = new JPanel(new FlowLayout());
 
