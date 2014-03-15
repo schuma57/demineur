@@ -14,40 +14,44 @@ import demineur.vue.IObservable;
 public class FenetreJeu extends JFrame implements IObservable {
 	private CtrlDemineur monCt;
 	private JTextField jtfTaille;
+    private JTextField jtfNom;
 	private CaseDemineur[][] cases;
 	private JPanel panelDemineur;
 	private final ImageIcon drapeau = new ImageIcon("images/drapeau.png");
 	private final ImageIcon bombe = new ImageIcon("images/bombe.png");
 
 	public FenetreJeu(CtrlDemineur ctl) {
-		super("Demineur");
+		super("Jeu du Demineur");
 		this.monCt = ctl;
 
+        JLabel lNom = new JLabel("Nom : ");
+        this.jtfNom = new JTextField(9);
 		JLabel lTaille = new JLabel("Choisir taille : ");
-		this.jtfTaille = new JTextField(6);
+		this.jtfTaille = new JTextField(5);
 		JButton bOk = new JButton("OK");
 		bOk.setActionCommand("valid");
 
 		JPanel pSaisie = new JPanel(new FlowLayout());
+        pSaisie.add(lNom);
+        pSaisie.add(jtfNom);
 		pSaisie.add(lTaille);
 		pSaisie.add(jtfTaille);
 		pSaisie.add(bOk);
 
+        // on ajoute la gestion des Evenements
 		bOk.addActionListener(monCt);
         jtfTaille.addKeyListener(monCt);
 
-		JPanel pMessage = new JPanel(new FlowLayout());
-
+        // on construit la fenetre
 		this.add(pSaisie, BorderLayout.NORTH);
 		panelDemineur = new JPanel();
 		this.add(panelDemineur, BorderLayout.CENTER);
-		this.add(pMessage, BorderLayout.SOUTH);
 
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
 		this.pack();
-		this.setSize(500, 600);
+		this.setSize(500, 500);
 		this.setVisible(true);
 	}
 
@@ -92,9 +96,13 @@ public class FenetreJeu extends JFrame implements IObservable {
 		return Integer.parseInt(jtfTaille.getText());
 	}
 
+    public String getNomSaisie(){
+        return jtfNom.getText();
+    }
+
 	public void afficheErreur(String s) {
         JOptionPane popup = new JOptionPane();
-        popup.showMessageDialog(null, s , "Erreur", JOptionPane.ERROR_MESSAGE);
+        popup.showMessageDialog(null, s, "Erreur", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void afficheModele() {

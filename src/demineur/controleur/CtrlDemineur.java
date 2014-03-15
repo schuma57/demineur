@@ -19,7 +19,7 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
 
 		if (s.equals("valid")) {
             try{
-			    this.modele = new Demineur(vue.getTailleSaisie());
+			    this.modele = new Demineur(vue.getTailleSaisie(), vue.getNomSaisie());
             }catch (IllegalArgumentException e){
                 vue.afficheErreur(e.getMessage());
             }
@@ -59,11 +59,11 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
 
 			if (!modele.decouvreTable(temp.getL(), temp.getC())) {
 				this.perdu = true;
-				vue.afficheFin("Vous avez Perdu !! :-(");
+				vue.afficheFin("Boum ! " +modele.getNomJoueur() +" Perd !!");
 			}
 
 			if (modele.gagne())
-				vue.afficheFin("Vous avez Gagne !!");
+				vue.afficheFin("Bravo, " +modele.getNomJoueur() +" Gagne !!");
 
 			vue.afficheModele();
 		}
@@ -89,7 +89,7 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
     public void keyReleased(KeyEvent ke) {
         if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
             try{
-                this.modele = new Demineur(vue.getTailleSaisie());
+                this.modele = new Demineur(vue.getTailleSaisie(), vue.getNomSaisie());
             }catch (IllegalArgumentException e){
                 vue.afficheErreur(e.getMessage());
             }

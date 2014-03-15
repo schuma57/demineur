@@ -2,9 +2,11 @@ package demineur;
 
 import java.util.GregorianCalendar;
 import java.util.Random;
+import java.util.prefs.Preferences;
 
 public class Demineur {
 	private int taille;
+    private String nomJoueur;
 	private boolean tableauMines[][];
 	private char tableauVisible[][]; //nombres de mines adjacentes
 	private final static char DRAPEAU='d';
@@ -12,13 +14,13 @@ public class Demineur {
 	
 
 	public Demineur() {
-		this(10);
+		this(10, "Joueur");
 	}
 
-	public Demineur(int taille) {
-
+	public Demineur(int taille, String nom) {
 		this.setTaille(taille);
 		this.initialiseTableaux();
+        this.setNomJoueur(nom);
 	}
 
 	private void initialiseTableaux() {
@@ -55,6 +57,23 @@ public class Demineur {
 	public int getTaille() {
 		return this.taille;
 	}
+
+    public String getNomJoueur(){
+        return nomJoueur;
+    }
+
+    public void setNomJoueur(String nom){
+        
+        if (nom.equals("")) {
+            throw new IllegalArgumentException("Veuillez saisir un Nom");
+        } else {
+            if (nom.length() < 3 || nom.length() > 10) {
+                throw new IllegalArgumentException("Longueur Nom : entre 3 et 10");
+            } else {
+                nomJoueur = nom;
+            }
+        }
+    }
 
 	public boolean[][] getTableauMines() {
 		return this.tableauMines;
