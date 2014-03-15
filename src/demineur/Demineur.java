@@ -12,7 +12,6 @@ public class Demineur {
 	
 
 	public Demineur() {
-
 		this(10);
 	}
 

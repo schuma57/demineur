@@ -16,10 +16,6 @@ public class CaseDemineur extends JButton {
 		super();
 	}
 
-	public CaseDemineur(String s) {
-		super(s);
-	}
-
 	public int getL() {
 		return l;
 	}

@@ -43,7 +43,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 		bOk.addActionListener(monCt);
 
 		JPanel pMessage = new JPanel(new FlowLayout());
-		message = new JTextField(50);
+		message = new JTextField(35);
 		pMessage.add(message);
 
 		this.add(pSaisie, BorderLayout.NORTH);
@@ -78,7 +78,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 						cases[i][j].setText("");
 				}
 
-				if (monCt.getPerdu() && monCt.getModele().getTableauMines()[i][j]) {
+				if (monCt.isPerdu() && monCt.getModele().getTableauMines()[i][j]) {
 					cases[i][j].setIcon(bombe);
 				}
 				cases[i][j].setPreferredSize(new Dimension(45, 45));
@@ -86,7 +86,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 				pTable.add(cases[i][j]);
 			}
 		}
-		if (monCt.getPerdu()) {
+		if (monCt.isPerdu()) {
 			for (int i = 0; i < this.getTailleSaisie(); i++) {
 				for (int j = 0; j < this.getTailleSaisie(); j++) {
 					cases[i][j].removeMouseListener(monCt);
@@ -113,14 +113,6 @@ public class FenetreJeu extends JFrame implements IObservable {
 
 	public void afficheFin(String s) {
 		this.message.setText(s);
-	}
-
-	public CaseDemineur[][] getCases() {
-		return cases;
-	}
-
-	public void setCases(CaseDemineur[][] cases) {
-		this.cases = cases;
 	}
 
 }

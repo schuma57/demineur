@@ -7,6 +7,4 @@ public interface IObservable {
 	public void afficheErreur(String s);
 	public void afficheModele();
 	public void afficheFin(String s);
-	public CaseDemineur[][] getCases();
-	public void setCases(CaseDemineur[][] cases);
 }

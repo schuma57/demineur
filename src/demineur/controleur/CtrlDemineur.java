@@ -25,7 +25,7 @@ public class CtrlDemineur implements ActionListener, MouseListener {
             try{
 			    this.modele = new Demineur(vue.getTailleSaisie());
             }catch (IllegalArgumentException e){
-                vue.afficheErreur(""+e);
+                vue.afficheErreur(e.getMessage());
             }
 			vue.afficheModele();
 		}
@@ -39,7 +39,7 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 		this.vue = v;
 	}
 
-	public boolean getPerdu() {
+	public boolean isPerdu() {
 		return perdu;
 	}
 
@@ -53,7 +53,7 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 				modele.setDrapeau(temp.getL(), temp.getC());
 			}
 			catch(RuntimeException e){
-				vue.afficheErreur(""+e);
+				vue.afficheErreur(e.getMessage());
 			}
 			vue.afficheModele();
 		}
@@ -67,7 +67,7 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 			}
 
 			if (modele.gagne())
-				vue.afficheFin("Vous avez Gagn� !!");
+				vue.afficheFin("Vous avez Gagne !!");
 
 			vue.afficheModele();
 		}
