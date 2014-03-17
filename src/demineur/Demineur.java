@@ -2,7 +2,6 @@ package demineur;
 
 import java.util.GregorianCalendar;
 import java.util.Random;
-import java.util.prefs.Preferences;
 
 public class Demineur {
 	private int taille;
@@ -62,8 +61,8 @@ public class Demineur {
         return nomJoueur;
     }
 
-    public void setNomJoueur(String nom){
-        
+    private void setNomJoueur(String nom){
+
         if (nom.equals("")) {
             throw new IllegalArgumentException("Veuillez saisir un Nom");
         } else {
@@ -230,5 +229,4 @@ public class Demineur {
 		}
 		return s;
 	}
-
 }

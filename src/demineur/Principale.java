@@ -2,9 +2,9 @@ package demineur;
 
 import demineur.controleur.CtrlDemineur;
 import demineur.vue.IObservable;
-import demineur.vue.swing.FenetreJeu; 
+import demineur.vue.swing.FenetreJeu;
 
-public class Principale {
+public class Principale{
 
 	public static void main(String[] args) {
 		CtrlDemineur controleur = new CtrlDemineur();
@@ -12,5 +12,6 @@ public class Principale {
 		//IObservable vue = new AwtFenetreJeu(controleur);
 		
 		controleur.setVue(vue);
-	}
+    }
+
 }

@@ -2,8 +2,6 @@ package demineur.controleur;
 
 import java.awt.event.*;
 
-import javax.swing.JButton;
-
 import demineur.Demineur;
 import demineur.vue.IObservable;
 import demineur.vue.swing.CaseDemineur;
@@ -23,6 +21,7 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
             }catch (IllegalArgumentException e){
                 vue.afficheErreur(e.getMessage());
             }
+            vue.chrono();
 			vue.afficheModele();
 		}
 	}
@@ -59,11 +58,14 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
 
 			if (!modele.decouvreTable(temp.getL(), temp.getC())) {
 				this.perdu = true;
+                vue.getTimer1().stop();
 				vue.afficheFin("Boum ! " +modele.getNomJoueur() +" Perd !!");
 			}
 
-			if (modele.gagne())
+			if (modele.gagne()){
+                vue.getTimer1().stop();
 				vue.afficheFin("Bravo, " +modele.getNomJoueur() +" Gagne !!");
+            }
 
 			vue.afficheModele();
 		}
@@ -93,6 +95,7 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
             }catch (IllegalArgumentException e){
                 vue.afficheErreur(e.getMessage());
             }
+            vue.chrono();
             vue.afficheModele();
         }
     }

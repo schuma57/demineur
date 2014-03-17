@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.Timer;
 
 import demineur.controleur.CtrlDemineur;
 import demineur.vue.IObservable;
@@ -15,6 +18,11 @@ public class FenetreJeu extends JFrame implements IObservable {
 	private CtrlDemineur monCt;
 	private JTextField jtfTaille;
     private JTextField jtfNom;
+    private int minute=0,seconde=0;
+    private JLabel lTemps = new JLabel(""+minute+":"+seconde);
+    private ActionListener tache_timer;
+    private Timer timer1;
+
 	private CaseDemineur[][] cases;
 	private JPanel panelDemineur;
 	private final ImageIcon drapeau = new ImageIcon("images/drapeau.png");
@@ -29,6 +37,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 		JLabel lTaille = new JLabel("Choisir taille : ");
 		this.jtfTaille = new JTextField(5);
 		JButton bOk = new JButton("OK");
+        lTemps = new JLabel();
 		bOk.setActionCommand("valid");
 
 		JPanel pSaisie = new JPanel(new FlowLayout());
@@ -47,6 +56,11 @@ public class FenetreJeu extends JFrame implements IObservable {
 		panelDemineur = new JPanel();
 		this.add(panelDemineur, BorderLayout.CENTER);
 
+        JPanel pMontre = new JPanel();
+        pMontre.add(lTemps);
+        //chrono();
+        this.add(pMontre, BorderLayout.SOUTH);
+
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
@@ -54,6 +68,14 @@ public class FenetreJeu extends JFrame implements IObservable {
 		this.setSize(500, 500);
 		this.setVisible(true);
 	}
+
+
+    public void afficheModele() {
+        panelDemineur.removeAll();
+        panelDemineur.add(this.createPanelDemineur());
+        panelDemineur.validate();
+        this.validate();
+    }
 
 	private JPanel createPanelDemineur() {
 		int taille = monCt.getModele().getTaille();
@@ -92,6 +114,28 @@ public class FenetreJeu extends JFrame implements IObservable {
 		return pTable;
 	}
 
+    public void chrono(){
+        tache_timer= new ActionListener()  {
+            public void actionPerformed(ActionEvent e1)  {
+                seconde++;
+                if(seconde==60)  {
+                    seconde=0;
+                    minute++;
+                }
+                //Afficher le chrono dans un JLabel
+                lTemps.setText(minute+":"+seconde);
+            }
+        };
+        //Action et temps execution de la tache
+        timer1=new Timer(1000,tache_timer);
+        //Demarrer le chrono
+        timer1.start();
+    }
+
+    public Timer getTimer1(){
+        return timer1;
+    }
+
 	public int getTailleSaisie() {
 		return Integer.parseInt(jtfTaille.getText());
 	}
@@ -103,13 +147,6 @@ public class FenetreJeu extends JFrame implements IObservable {
 	public void afficheErreur(String s) {
         JOptionPane popup = new JOptionPane();
         popup.showMessageDialog(null, s, "Erreur", JOptionPane.ERROR_MESSAGE);
-	}
-
-	public void afficheModele() {
-		panelDemineur.removeAll();
-		panelDemineur.add(this.createPanelDemineur());
-		panelDemineur.validate();
-		this.validate();
 	}
 
 	public void afficheFin(String s) {
