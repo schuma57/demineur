@@ -57,20 +57,21 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
 		if ((ev.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
 			modele.decouvreTable(temp.getL(), temp.getC());
             perdu = !modele.decouvreTable(temp.getL(), temp.getC());
+
+            if (modele.gagne()){
+                vue.getTimer1().stop();
+                modele.getParties().setMinutes(vue.getMinute() );
+                modele.getParties().setSecondes(vue.getSeconde() );
+                vue.afficheFin("Bravo, " +modele.getParties().getNomJoueur() +" " +
+                        "\nGagne en : " +vue.getMinute() +" min " +vue.getSeconde() +" sec");
+            }
+
             vue.afficheModele();
 
 			if (perdu) {
                 vue.getTimer1().stop();
 				vue.afficheFin("Boum ! " +modele.getParties().getNomJoueur() +" Perd !!");
 			}
-
-			if (modele.gagne()){
-                vue.getTimer1().stop();
-                modele.getParties().setMinutes(vue.getMinute() );
-                modele.getParties().setSecondes(vue.getSeconde() );
-				vue.afficheFin("Bravo, " +modele.getParties().getNomJoueur() +" " +
-                        "\nGagne en : " +vue.getMinute() +" min " +vue.getSeconde() +" sec");
-            }
 		}
 	}
 

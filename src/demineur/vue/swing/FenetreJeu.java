@@ -78,7 +78,7 @@ public class FenetreJeu extends JFrame implements IObservable {
     }
 
 	private JPanel createPanelDemineur() {
-		int taille = monCt.getModele().getTaille();
+		int taille = monCt.getModele().getParties().getTaille();
 		this.cases = new CaseDemineur[taille][taille];
 		JPanel pTable = new JPanel(new GridLayout(taille, taille));
 
