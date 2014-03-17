@@ -18,7 +18,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 	private CtrlDemineur monCt;
 	private JTextField jtfTaille;
     private JTextField jtfNom;
-    private int minute=0,seconde=0;
+    private int minute,seconde;
     private JLabel lTemps = new JLabel(""+minute+":"+seconde);
     private ActionListener tache_timer;
     private Timer timer1;
@@ -40,6 +40,7 @@ public class FenetreJeu extends JFrame implements IObservable {
         lTemps = new JLabel();
 		bOk.setActionCommand("valid");
 
+
 		JPanel pSaisie = new JPanel(new FlowLayout());
         pSaisie.add(lNom);
         pSaisie.add(jtfNom);
@@ -58,14 +59,13 @@ public class FenetreJeu extends JFrame implements IObservable {
 
         JPanel pMontre = new JPanel();
         pMontre.add(lTemps);
-        //chrono();
         this.add(pMontre, BorderLayout.SOUTH);
 
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
 
 		this.pack();
 		this.setSize(500, 500);
+        this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 
@@ -82,8 +82,8 @@ public class FenetreJeu extends JFrame implements IObservable {
 		this.cases = new CaseDemineur[taille][taille];
 		JPanel pTable = new JPanel(new GridLayout(taille, taille));
 
-		for (int i = 0; i < this.getTailleSaisie(); i++) {
-			for (int j = 0; j < this.getTailleSaisie(); j++) {
+		for (int i = 0; i < taille ; i++) {
+			for (int j = 0; j < taille; j++) {
 				cases[i][j] = new CaseDemineur(i, j);
 
 				if (monCt.getModele().estDrapeau(i, j)) // si c'est un drapeau
@@ -104,9 +104,10 @@ public class FenetreJeu extends JFrame implements IObservable {
 				pTable.add(cases[i][j]);
 			}
 		}
-		if (monCt.isPerdu()) {
-			for (int i = 0; i < this.getTailleSaisie(); i++) {
-				for (int j = 0; j < this.getTailleSaisie(); j++) {
+
+		if (monCt.isPerdu() || monCt.getModele().gagne()) {
+			for (int i = 0; i < taille ; i++) {
+				for (int j = 0; j < taille ; j++) {
 					cases[i][j].removeMouseListener(monCt);
 				}
 			}
@@ -115,6 +116,8 @@ public class FenetreJeu extends JFrame implements IObservable {
 	}
 
     public void chrono(){
+        minute = 0;
+        seconde = 0;
         tache_timer= new ActionListener()  {
             public void actionPerformed(ActionEvent e1)  {
                 seconde++;
@@ -132,7 +135,16 @@ public class FenetreJeu extends JFrame implements IObservable {
         timer1.start();
     }
 
+    public int getMinute() {
+        return minute;
+    }
+
+    public int getSeconde() {
+        return seconde;
+    }
+
     public Timer getTimer1(){
+        System.out.println(timer1.toString());
         return timer1;
     }
 

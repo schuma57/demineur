@@ -12,4 +12,6 @@ public interface IObservable {
 	public void afficheFin(String s);
     public void chrono();
     public Timer getTimer1();
+    public int getMinute();
+    public int getSeconde();
 }

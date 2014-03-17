@@ -5,11 +5,11 @@ import java.util.Random;
 
 public class Demineur {
 	private int taille;
-    private String nomJoueur;
 	private boolean tableauMines[][];
 	private char tableauVisible[][]; //nombres de mines adjacentes
 	private final static char DRAPEAU='d';
 	private final static char CACHE=' ';
+    private Partie parties;
 	
 
 	public Demineur() {
@@ -19,7 +19,7 @@ public class Demineur {
 	public Demineur(int taille, String nom) {
 		this.setTaille(taille);
 		this.initialiseTableaux();
-        this.setNomJoueur(nom);
+        this.parties.setNomJoueur(nom);
 	}
 
 	private void initialiseTableaux() {
@@ -54,32 +54,19 @@ public class Demineur {
 	}
 
 	public int getTaille() {
-		return this.taille;
+		return taille;
 	}
 
-    public String getNomJoueur(){
-        return nomJoueur;
-    }
-
-    private void setNomJoueur(String nom){
-
-        if (nom.equals("")) {
-            throw new IllegalArgumentException("Veuillez saisir un Nom");
-        } else {
-            if (nom.length() < 3 || nom.length() > 10) {
-                throw new IllegalArgumentException("Longueur Nom : entre 3 et 10");
-            } else {
-                nomJoueur = nom;
-            }
-        }
+    public Partie getParties(){
+        return parties;
     }
 
 	public boolean[][] getTableauMines() {
-		return this.tableauMines;
+		return tableauMines;
 	}
 
 	public char[][] getTableauVisible() {
-		return this.tableauVisible;
+		return tableauVisible;
 	}
 
 	/**

@@ -13,5 +13,4 @@ public class Principale{
 		
 		controleur.setVue(vue);
     }
-
 }

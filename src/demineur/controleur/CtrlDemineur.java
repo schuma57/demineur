@@ -21,6 +21,7 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
             }catch (IllegalArgumentException e){
                 vue.afficheErreur(e.getMessage());
             }
+            perdu = false;
             vue.chrono();
 			vue.afficheModele();
 		}
@@ -55,19 +56,21 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
 
 		if ((ev.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
 			modele.decouvreTable(temp.getL(), temp.getC());
+            perdu = !modele.decouvreTable(temp.getL(), temp.getC());
+            vue.afficheModele();
 
-			if (!modele.decouvreTable(temp.getL(), temp.getC())) {
-				this.perdu = true;
+			if (perdu) {
                 vue.getTimer1().stop();
-				vue.afficheFin("Boum ! " +modele.getNomJoueur() +" Perd !!");
+				vue.afficheFin("Boum ! " +modele.getParties().getNomJoueur() +" Perd !!");
 			}
 
 			if (modele.gagne()){
                 vue.getTimer1().stop();
-				vue.afficheFin("Bravo, " +modele.getNomJoueur() +" Gagne !!");
+                modele.getParties().setMinutes(vue.getMinute() );
+                modele.getParties().setSecondes(vue.getSeconde() );
+				vue.afficheFin("Bravo, " +modele.getParties().getNomJoueur() +" " +
+                        "\nGagne en : " +vue.getMinute() +" min " +vue.getSeconde() +" sec");
             }
-
-			vue.afficheModele();
 		}
 	}
 
@@ -84,7 +87,7 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent ke) {
+	public void mouseReleased(MouseEvent ev) {
 	}
 
     @Override
