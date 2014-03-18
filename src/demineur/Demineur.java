@@ -8,7 +8,7 @@ public class Demineur {
 	private char tableauVisible[][]; //nombres de mines adjacentes
 	private final static char DRAPEAU='d';
 	private final static char CACHE=' ';
-    private Partie parties;
+    private Partie partieC;
 	
 
 	public Demineur() {
@@ -16,20 +16,20 @@ public class Demineur {
 	}
 
 	public Demineur(int taille, String nom) {
-        this.parties = new Partie(taille, nom);
+        this.partieC = new Partie(nom, taille);
         this.initialiseTableaux();
-	}
+    }
 
 	private void initialiseTableaux() {
 		
-		this.tableauMines = new boolean[parties.getTaille()][parties.getTaille()];
-		this.tableauVisible = new char[parties.getTaille()][parties.getTaille()];
+		this.tableauMines = new boolean[partieC.getTaille()][partieC.getTaille()];
+		this.tableauVisible = new char[partieC.getTaille()][partieC.getTaille()];
 		
 		// Environ 1 case sur 6 est une mine
 		Random hasard = new Random(new GregorianCalendar().getTimeInMillis());
 
-		for (int l = 0; l < parties.getTaille(); l++) {
-			for (int c = 0; c < parties.getTaille(); c++) {
+		for (int l = 0; l < partieC.getTaille(); l++) {
+			for (int c = 0; c < partieC.getTaille(); c++) {
 				int val = hasard.nextInt(6);
 				if (val == 0) {
 					this.tableauMines[l][c] = true;
@@ -42,11 +42,11 @@ public class Demineur {
 		}
 	}
 
-    public Partie getParties(){
-        return parties;
+    public Partie getPartieC(){
+        return partieC;
     }
 
-	public boolean[][] getTableauMines() {
+    public boolean[][] getTableauMines() {
 		return tableauMines;
 	}
 
@@ -130,7 +130,7 @@ public class Demineur {
 	 */
 	private boolean inDemineur(int l, int c) {
 
-		return (l >= 0 && c >= 0 && l < parties.getTaille() && c < parties.getTaille());
+		return (l >= 0 && c >= 0 && l < partieC.getTaille() && c < partieC.getTaille());
 	}
 	
 	/**
@@ -142,9 +142,9 @@ public class Demineur {
 		
 		boolean gagne=true;
 		int i=0;
-		while (i < parties.getTaille() && gagne) {
+		while (i < partieC.getTaille() && gagne) {
 			int j=0;
-			while (j < parties.getTaille() && gagne) {
+			while (j < partieC.getTaille() && gagne) {
 				gagne=this.tableauVisible[i][j]!=Demineur.CACHE && 
 						(this.tableauVisible[i][j]!=Demineur.DRAPEAU || this.tableauMines[i][j]);
 				j++;
@@ -180,7 +180,7 @@ public class Demineur {
 		
 	public String toString() {
 
-		String s = "demineur taille " + parties.getTaille() + "\n\n";
+		String s = "demineur taille " + partieC.getTaille() + "\n\n";
 		s += tableBombesToString();
 
 		return s;
@@ -189,8 +189,8 @@ public class Demineur {
 	private String tableBombesToString() {
 
 		String s = "";
-		for (int l = 0; l < parties.getTaille(); l++) {
-			for (int c = 0; c < parties.getTaille(); c++) {
+		for (int l = 0; l < partieC.getTaille(); l++) {
+			for (int c = 0; c < partieC.getTaille(); c++) {
 				if (this.tableauMines[l][c]) {
 					s += "b";
 				} else {

@@ -10,8 +10,9 @@ public interface IObservable {
 	public void afficheErreur(String s);
 	public void afficheModele();
 	public void afficheFin(String s);
+    public void afficheScores(String s);
     public void chrono();
-    public Timer getTimer1();
+    public Timer getTemps();
     public int getMinute();
     public int getSeconde();
 }

@@ -8,13 +8,11 @@ import java.io.Serializable;
 public class Partie implements Serializable{
     private String nomJoueur;
     private int taille;
-    private int minutes;
     private int secondes;
 
-    public Partie(int ta, String s){
+    public Partie(String s, int ta){
         setTaille(ta);
-        nomJoueur = s;
-        minutes =0;
+        setNomJoueur(s);
         secondes =0;
     }
 
@@ -31,12 +29,12 @@ public class Partie implements Serializable{
         return taille;
     }
 
-    public void setSecondes(int secondes) {
-        this.secondes = secondes;
+    public int getSecondes() {
+        return secondes;
     }
 
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
+    public void setSecondes(int secondes) {
+        this.secondes = secondes;
     }
 
     public String getNomJoueur(){
@@ -54,6 +52,10 @@ public class Partie implements Serializable{
                 nomJoueur = nom;
             }
         }
+    }
+
+    public String toString(){
+        return("Joueur : " +nomJoueur +" , " +secondes + " , taille : " +taille);
     }
 
 }

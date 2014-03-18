@@ -1,21 +1,26 @@
 package demineur.controleur;
 
 import java.awt.event.*;
+import java.io.IOException;
 
 import demineur.Demineur;
+import demineur.Partie;
+import demineur.highscores.HighscoreManager;
 import demineur.vue.IObservable;
 import demineur.vue.swing.CaseDemineur;
 
-public class CtrlDemineur implements ActionListener, MouseListener, KeyListener {
+public class CtrlDemineur implements ActionListener, MouseListener {
 	private Demineur modele;
 	private IObservable vue;
 	private boolean perdu;
+    private HighscoreManager hs;
+
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		String s = ae.getActionCommand();
 
-		if (s.equals("valid")) {
+		if (s.equals("OK")) {
             try{
 			    this.modele = new Demineur(vue.getTailleSaisie(), vue.getNomSaisie());
             }catch (IllegalArgumentException e){
@@ -25,6 +30,11 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
             vue.chrono();
 			vue.afficheModele();
 		}
+
+        if (s.equals("Scores")){
+           // vue.afficheScores(hs.getHighscoreString());
+            vue.afficheScores("Bonjour\n petit test");
+        }
 	}
 
 	public Demineur getModele() {
@@ -59,18 +69,20 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
             perdu = !modele.decouvreTable(temp.getL(), temp.getC());
 
             if (modele.gagne()){
-                vue.getTimer1().stop();
-                modele.getParties().setMinutes(vue.getMinute() );
-                modele.getParties().setSecondes(vue.getSeconde() );
-                vue.afficheFin("Bravo, " +modele.getParties().getNomJoueur() +" " +
+                vue.getTemps().stop();
+                modele.getPartieC().setSecondes(vue.getSeconde() + vue.getMinute()*60);
+
+                vue.afficheFin("Bravo, " +modele.getPartieC().getNomJoueur() +" " +
                         "\nGagne en : " +vue.getMinute() +" min " +vue.getSeconde() +" sec");
+
+                hs.addScore(modele.getPartieC().getNomJoueur(), modele.getPartieC().getSecondes());
             }
 
             vue.afficheModele();
 
 			if (perdu) {
-                vue.getTimer1().stop();
-				vue.afficheFin("Boum ! " +modele.getParties().getNomJoueur() +" Perd !!");
+                vue.getTemps().stop();
+				vue.afficheFin("Boum ! " +modele.getPartieC().getNomJoueur() +" Perd !!");
 			}
 		}
 	}
@@ -90,25 +102,4 @@ public class CtrlDemineur implements ActionListener, MouseListener, KeyListener 
 	@Override
 	public void mouseReleased(MouseEvent ev) {
 	}
-
-    @Override
-    public void keyReleased(KeyEvent ke) {
-        if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-            try{
-                this.modele = new Demineur(vue.getTailleSaisie(), vue.getNomSaisie());
-            }catch (IllegalArgumentException e){
-                vue.afficheErreur(e.getMessage());
-            }
-            vue.chrono();
-            vue.afficheModele();
-        }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent ke) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent ke) {
-    }
 }

@@ -21,7 +21,7 @@ public class FenetreJeu extends JFrame implements IObservable {
     private int minute,seconde;
     private JLabel lTemps = new JLabel(""+minute+":"+seconde);
     private ActionListener tache_timer;
-    private Timer timer1;
+    private Timer temps;
 
 	private CaseDemineur[][] cases;
 	private JPanel panelDemineur;
@@ -37,8 +37,8 @@ public class FenetreJeu extends JFrame implements IObservable {
 		JLabel lTaille = new JLabel("Choisir taille : ");
 		this.jtfTaille = new JTextField(5);
 		JButton bOk = new JButton("OK");
+        this.getRootPane().setDefaultButton(bOk);
         lTemps = new JLabel();
-		bOk.setActionCommand("valid");
 
 
 		JPanel pSaisie = new JPanel(new FlowLayout());
@@ -50,14 +50,16 @@ public class FenetreJeu extends JFrame implements IObservable {
 
         // on ajoute la gestion des Evenements
 		bOk.addActionListener(monCt);
-        jtfTaille.addKeyListener(monCt);
 
         // on construit la fenetre
 		this.add(pSaisie, BorderLayout.NORTH);
 		panelDemineur = new JPanel();
 		this.add(panelDemineur, BorderLayout.CENTER);
 
+        JButton bScore = new JButton("Scores");
+        bScore.addActionListener(monCt);
         JPanel pMontre = new JPanel();
+        pMontre.add(bScore);
         pMontre.add(lTemps);
         this.add(pMontre, BorderLayout.SOUTH);
 
@@ -75,10 +77,11 @@ public class FenetreJeu extends JFrame implements IObservable {
         panelDemineur.add(this.createPanelDemineur());
         panelDemineur.validate();
         this.validate();
+        this.repaint();
     }
 
 	private JPanel createPanelDemineur() {
-		int taille = monCt.getModele().getParties().getTaille();
+		int taille = monCt.getModele().getPartieC().getTaille();
 		this.cases = new CaseDemineur[taille][taille];
 		JPanel pTable = new JPanel(new GridLayout(taille, taille));
 
@@ -105,7 +108,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 			}
 		}
 
-		if (monCt.isPerdu() || monCt.getModele().gagne()) {
+		if (monCt.isPerdu() ) {
 			for (int i = 0; i < taille ; i++) {
 				for (int j = 0; j < taille ; j++) {
 					cases[i][j].removeMouseListener(monCt);
@@ -129,10 +132,8 @@ public class FenetreJeu extends JFrame implements IObservable {
                 lTemps.setText(minute+":"+seconde);
             }
         };
-        //Action et temps execution de la tache
-        timer1=new Timer(1000,tache_timer);
-        //Demarrer le chrono
-        timer1.start();
+        temps=new Timer(1000,tache_timer);
+        temps.start();
     }
 
     public int getMinute() {
@@ -143,9 +144,9 @@ public class FenetreJeu extends JFrame implements IObservable {
         return seconde;
     }
 
-    public Timer getTimer1(){
-        System.out.println(timer1.toString());
-        return timer1;
+    public Timer getTemps(){
+        System.out.println(temps.toString());
+        return temps;
     }
 
 	public int getTailleSaisie() {
@@ -165,5 +166,18 @@ public class FenetreJeu extends JFrame implements IObservable {
         JOptionPane popup = new JOptionPane();
         popup.showMessageDialog(null, s, "Fin partie", JOptionPane.WARNING_MESSAGE);
 	}
+
+    public void afficheScores(String s){
+        JFrame popup = new JFrame("Tableau des scores");
+        JPanel pan = new JPanel();
+        JTextArea texte = new JTextArea(10,34);
+        texte.setText(s);
+        pan.add(texte);
+        popup.add(pan);
+        popup.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        popup.pack();
+        popup.setSize(400, 400);
+        popup.setVisible(true);
+    }
 
 }
