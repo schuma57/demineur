@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by schuma on 17/03/14.
  */
 public class Partie implements Serializable{
+    private static final long serialVersionUID = 10241024L;
     private String nomJoueur;
     private int taille;
     private int secondes;

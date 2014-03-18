@@ -30,9 +30,9 @@ public class HighscoreManager {
         Collections.sort(parties, comparator);
     }
 
-    public void addScore(String name, int score) {
+    public void addScore(String name, int taille) {
         loadScoreFile();
-        parties.add(new Partie(name, score));
+        parties.add(new Partie(name, taille));
         updateScoreFile();
     }
 
