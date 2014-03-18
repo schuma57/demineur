@@ -16,7 +16,7 @@ import demineur.vue.IObservable;
 
 public class FenetreJeu extends JFrame implements IObservable {
 	private CtrlDemineur monCt;
-	private JTextField jtfTaille;
+    private JSpinner jsTaille;
     private JTextField jtfNom;
     private int minute,seconde;
     private JLabel lTemps = new JLabel(""+minute+":"+seconde);
@@ -35,7 +35,11 @@ public class FenetreJeu extends JFrame implements IObservable {
         JLabel lNom = new JLabel("Nom : ");
         this.jtfNom = new JTextField(9);
 		JLabel lTaille = new JLabel("Choisir taille : ");
-		this.jtfTaille = new JTextField(5);
+
+        SpinnerNumberModel model = new SpinnerNumberModel(5,5,15,1);
+        this.jsTaille = new JSpinner(model);
+        ((JSpinner.DefaultEditor) jsTaille.getEditor()).getTextField().setEditable(false);
+
 		JButton bOk = new JButton("OK");
         this.getRootPane().setDefaultButton(bOk);
         lTemps = new JLabel();
@@ -45,7 +49,7 @@ public class FenetreJeu extends JFrame implements IObservable {
         pSaisie.add(lNom);
         pSaisie.add(jtfNom);
 		pSaisie.add(lTaille);
-		pSaisie.add(jtfTaille);
+        pSaisie.add(jsTaille);
 		pSaisie.add(bOk);
 
         // on ajoute la gestion des Evenements
@@ -150,7 +154,7 @@ public class FenetreJeu extends JFrame implements IObservable {
     }
 
 	public int getTailleSaisie() {
-		return Integer.parseInt(jtfTaille.getText());
+        return (Integer) jsTaille.getValue();
 	}
 
     public String getNomSaisie(){
@@ -174,7 +178,6 @@ public class FenetreJeu extends JFrame implements IObservable {
         texte.setText(s);
         pan.add(texte);
         popup.add(pan);
-        popup.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         popup.pack();
         popup.setSize(400, 400);
         popup.setVisible(true);
