@@ -129,7 +129,6 @@ public class Demineur {
 	 * @return vrai si on est encore dans la table
 	 */
 	private boolean inDemineur(int l, int c) {
-
 		return (l >= 0 && c >= 0 && l < partieC.getTaille() && c < partieC.getTaille());
 	}
 	
@@ -174,7 +173,6 @@ public class Demineur {
 	 * @return vrai s'il y a un drapeau sur la case
 	 */
 	public boolean estDrapeau(int l, int c) {
-		
 		return this.tableauVisible[l][c]==Demineur.DRAPEAU;
 	}
 		

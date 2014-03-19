@@ -27,6 +27,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 	private JPanel panelDemineur;
 	private final ImageIcon drapeau = new ImageIcon("images/drapeau.png");
 	private final ImageIcon bombe = new ImageIcon("images/bombe.png");
+    private final ImageIcon drap_faux = new ImageIcon("images/drapeau_faux.png");
 
 	public FenetreJeu(CtrlDemineur ctl) {
 		super("Jeu du Demineur");
@@ -103,8 +104,11 @@ public class FenetreJeu extends JFrame implements IObservable {
 						cases[i][j].setText("");
 				}
 
-				if (monCt.isPerdu() && monCt.getModele().getTableauMines()[i][j]) {
-					cases[i][j].setIcon(bombe);
+				if (monCt.isPerdu()) {
+                    if(monCt.getModele().getTableauMines()[i][j])
+					    cases[i][j].setIcon(bombe);
+                    if(monCt.getModele().estDrapeau(i,j) && !monCt.getModele().getTableauMines()[i][j])
+                        cases[i][j].setIcon(drap_faux);
 				}
 				cases[i][j].setPreferredSize(new Dimension(45, 45));
 				cases[i][j].addMouseListener(monCt);
@@ -149,7 +153,6 @@ public class FenetreJeu extends JFrame implements IObservable {
     }
 
     public Timer getTemps(){
-        System.out.println(temps.toString());
         return temps;
     }
 

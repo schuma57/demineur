@@ -91,7 +91,7 @@ public class HighscoreManager {
             x = max;
         }
         while (i < x) {
-            highscoreString += (i + 1) + ".\t" + part.get(i).getNomJoueur() + "\t\t" + part.get(i).getSecondes() + " sec\n";
+            highscoreString += (i + 1) + ".\t" + part.get(i).getNomJoueur() + "\t\t" + part.get(i).getSecondes() + " sec \n";
             i++;
         }
         return highscoreString;
