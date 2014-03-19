@@ -30,9 +30,9 @@ public class HighscoreManager {
         Collections.sort(parties, comparator);
     }
 
-    public void addScore(String name, int taille) {
+    public void addScore(Partie p) {
         loadScoreFile();
-        parties.add(new Partie(name, taille));
+        parties.add(p);
         updateScoreFile();
     }
 
@@ -91,7 +91,7 @@ public class HighscoreManager {
             x = max;
         }
         while (i < x) {
-            highscoreString += (i + 1) + ".\t" + part.get(i).getNomJoueur() + "\t\t" + part.get(i).getTaille() + "\n";
+            highscoreString += (i + 1) + ".\t" + part.get(i).getNomJoueur() + "\t\t" + part.get(i).getSecondes() + " sec\n";
             i++;
         }
         return highscoreString;

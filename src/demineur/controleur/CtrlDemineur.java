@@ -32,7 +32,7 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 		}
 
         if (s.equals("Scores")){
-           vue.afficheScores(hs.getHighscoreString());
+            vue.afficheScores(hs.getHighscoreString());
         }
 	}
 
@@ -74,7 +74,7 @@ public class CtrlDemineur implements ActionListener, MouseListener {
                 vue.afficheFin("Bravo, " +modele.getPartieC().getNomJoueur() +" " +
                         "\nGagne en : " +vue.getMinute() +" min " +vue.getSeconde() +" sec");
 
-                hs.addScore(modele.getPartieC().getNomJoueur(), modele.getPartieC().getTaille());
+                hs.addScore(modele.getPartieC() );
             }
 
             vue.afficheModele();

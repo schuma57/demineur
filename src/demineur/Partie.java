@@ -54,9 +54,4 @@ public class Partie implements Serializable{
             }
         }
     }
-
-    public String toString(){
-        return("Joueur : " +nomJoueur +" , " +secondes + " , taille : " +taille);
-    }
-
 }
