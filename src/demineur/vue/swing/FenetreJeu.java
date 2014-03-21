@@ -112,6 +112,9 @@ public class FenetreJeu extends JFrame implements IObservable {
 				}
 				cases[i][j].setPreferredSize(new Dimension(45, 45));
 				cases[i][j].addMouseListener(monCt);
+
+                if (monCt.getModele().estDecouvert(i, j) )
+                    cases[i][j].removeMouseListener(monCt);
 				pTable.add(cases[i][j]);
 			}
 		}

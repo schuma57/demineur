@@ -60,12 +60,8 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 			catch(RuntimeException e){
 				vue.afficheErreur(e.getMessage());
 			}
-			vue.afficheModele();
-		}
 
-		if ((ev.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
-			modele.decouvreTable(temp.getL(), temp.getC());
-            perdu = !modele.decouvreTable(temp.getL(), temp.getC());
+            vue.afficheModele();
 
             if (modele.gagne()){
                 vue.getTemps().stop();
@@ -76,8 +72,23 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 
                 hs.addScore(modele.getPartieC() );
             }
+		}
+
+		if ((ev.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
+			modele.decouvreTable(temp.getL(), temp.getC());
+            perdu = !modele.decouvreTable(temp.getL(), temp.getC());
 
             vue.afficheModele();
+
+            if (modele.gagne()){
+                vue.getTemps().stop();
+                modele.getPartieC().setSecondes(vue.getSeconde() + vue.getMinute()*60);
+
+                vue.afficheFin("Bravo, " +modele.getPartieC().getNomJoueur() +" " +
+                        "\nGagne en : " +vue.getMinute() +" min " +vue.getSeconde() +" sec");
+
+                hs.addScore(modele.getPartieC() );
+            }
 
 			if (perdu) {
                 vue.getTemps().stop();

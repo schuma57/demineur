@@ -90,10 +90,12 @@ public class HighscoreManager {
         if (x > max) {
             x = max;
         }
+
         while (i < x) {
             highscoreString += (i + 1) + ".\t" + part.get(i).getNomJoueur() + "\t\t" + part.get(i).getSecondes() + " sec \n";
             i++;
         }
+
         return highscoreString;
     }
 }
