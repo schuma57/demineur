@@ -54,4 +54,9 @@ public class Partie implements Serializable{
             }
         }
     }
+
+    public String toString(){
+        return ( getNomJoueur() + "\t"
+                +getTaille() +"\t" + getSecondes() + " sec \n" );
+    }
 }
