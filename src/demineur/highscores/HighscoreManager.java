@@ -5,6 +5,11 @@ package demineur.highscores;
  */
 
 import demineur.Partie;
+
+import java.beans.Statement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 import java.io.*;
 
@@ -81,11 +86,7 @@ public class HighscoreManager {
         }
     }
 
-    public String getHighscoreString() {
-        String highscoreString = "";
-        int max = NB_SCORE;
-
-        // pas tres propre a refaire !!!!
+    private ArrayList<Partie>[] trierParties(){
         ArrayList<Partie> par[] = new ArrayList[TAILLE_MAX - TAILLE_MIN +1 ];
 
         for(int y = 0 ; y <= (TAILLE_MAX - TAILLE_MIN); y++){
@@ -121,6 +122,18 @@ public class HighscoreManager {
             }
         }
 
+        return par;
+    }
+
+
+    public String getHighscoreString() {
+        String highscoreString = "";
+        int max = NB_SCORE;
+
+        ArrayList<Partie> par[] = trierParties();
+
+        highscoreString += "Rang\tNom\tTaille\tTemps\n";
+
         //on affiche les scores par taille croissante
         for(int y = 0 ; y <= (TAILLE_MAX - TAILLE_MIN) ; y++){
 
@@ -135,9 +148,46 @@ public class HighscoreManager {
                 i++;
             }
             highscoreString +="\n";
-
-        } // fin truc à refaire
+        }
 
         return highscoreString;
+    }
+
+    //TODO, fonctionne
+    public void ajoutBDD(Partie p){
+        try {
+            Connection co = ConnexionBDD.getInstance();
+            java.sql.PreparedStatement stat = co.prepareStatement
+                    ("INSERT INTO score (id,nom_joueur, taille, temps) VALUES(NULL, ? , ?, ?)");
+            stat.setString(1, p.getNomJoueur());
+            stat.setInt(2, p.getTaille());
+            stat.setInt(3, p.getSecondes());
+            stat.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //TODO, fonctionne
+    public void lireBDD(){
+        String s = "";
+        try{
+            Connection conn = ConnexionBDD.getInstance();
+            ResultSet res = null;
+            java.sql.Statement requete = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+            res = requete.executeQuery("SELECT * FROM score");
+
+            int i = 1;
+            while(res.next()){
+                s += res.getString("nom_joueur") +"\t\t" +res.getString("taille") +"\t\t" +res.getString("temps") +"\n";
+                i++;
+            }
+        }
+        catch (SQLException sqle) {
+            System.out.println("Probleme dans SELECT " + sqle.getMessage());
+        }
+
+        System.out.println(s);
     }
 }

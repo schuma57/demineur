@@ -93,16 +93,23 @@ public class FenetreJeu extends JFrame implements IObservable {
 		for (int i = 0; i < taille ; i++) {
 			for (int j = 0; j < taille; j++) {
 				cases[i][j] = new CaseDemineur(i, j);
+                cases[i][j].setBackground(Color.lightGray);
 
 				if (monCt.getModele().estDrapeau(i, j)) // si c'est un drapeau
 					cases[i][j].setIcon(drapeau); // on affiche un drapeau
 
 				if (monCt.getModele().estDecouvert(i, j) ) {
 					cases[i][j].setText(""+ monCt.getModele().getTableauVisible()[i][j]);
-					cases[i][j].setBackground(Color.white);
+					cases[i][j].setBackground(Color.WHITE);
 					if (cases[i][j].getText().equals("0"))
 						cases[i][j].setText("");
-				}
+                    else if(cases[i][j].getText().equals("1"))
+                        cases[i][j].setForeground(Color.BLACK );
+                    else if(cases[i][j].getText().equals("2"))
+                        cases[i][j].setForeground(Color.BLUE );
+                    else
+                        cases[i][j].setForeground(Color.RED);
+                }
 
 				if (monCt.isPerdu()) {
                     if(monCt.getModele().getTableauMines()[i][j])
@@ -132,13 +139,16 @@ public class FenetreJeu extends JFrame implements IObservable {
     public void chrono(){
         minute = 0;
         seconde = 0;
+        final long tempsDebut = System.currentTimeMillis();
+
+        if(temps != null)
+            temps.stop();
         tache_timer= new ActionListener()  {
             public void actionPerformed(ActionEvent e1)  {
-                seconde++;
-                if(seconde==60)  {
-                    seconde=0;
-                    minute++;
-                }
+                long tempsActuel = System.currentTimeMillis();
+                seconde = (int) ((tempsActuel - tempsDebut) /1000 % 60 );
+                minute = (int) ((tempsActuel - tempsDebut) /60000 );
+
                 //Afficher le chrono dans un JLabel
                 lTemps.setText(minute+":"+seconde);
             }
@@ -185,8 +195,7 @@ public class FenetreJeu extends JFrame implements IObservable {
         pan.add(texte);
         popup.add(pan);
         popup.pack();
-        popup.setSize(400, 400);
+        popup.setSize(400, 550);
         popup.setVisible(true);
     }
-
 }

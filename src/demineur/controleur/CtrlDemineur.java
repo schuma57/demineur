@@ -29,6 +29,7 @@ public class CtrlDemineur implements ActionListener, MouseListener {
             perdu = false;
             vue.chrono();
 			vue.afficheModele();
+            hs.lireBDD();
 		}
 
         if (s.equals("Scores")){
@@ -88,6 +89,7 @@ public class CtrlDemineur implements ActionListener, MouseListener {
                         "\nGagne en : " +vue.getMinute() +" min " +vue.getSeconde() +" sec");
 
                 hs.addScore(modele.getPartieC() );
+                hs.ajoutBDD(modele.getPartieC());
             }
 
 			if (perdu) {
