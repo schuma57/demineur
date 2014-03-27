@@ -32,8 +32,11 @@ public class CtrlDemineur implements ActionListener, MouseListener {
             hs.lireBDD();
 		}
 
-        if (s.equals("Scores")){
+        if (s.equals("SL")){
             vue.afficheScores(hs.getHighscoreString());
+        }
+        if (s.equals("SG")){
+            vue.afficheScoreBdd(hs.getHighscoreStringGlobal() );
         }
 	}
 

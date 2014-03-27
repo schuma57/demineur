@@ -17,6 +17,12 @@ public class Partie implements Serializable {
         secondes =0;
     }
 
+    public Partie(String s, int ta, int sec){
+        setTaille(ta);
+        setNomJoueur(s);
+        secondes = sec;
+    }
+
     private void setTaille(int taille) {
 
         if (taille < 5 || taille > 15) {

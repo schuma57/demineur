@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import javax.swing.Timer;
 
 import demineur.controleur.CtrlDemineur;
 import demineur.vue.IObservable;
@@ -33,7 +32,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 		super("Jeu du Demineur");
 		this.monCt = ctl;
 
-        JLabel lNom = new JLabel("Nom : ");
+        JLabel lNom = new JLabel("Pseudo : ");
         this.jtfNom = new JTextField(9);
 		JLabel lTaille = new JLabel("Choisir taille : ");
 
@@ -61,10 +60,15 @@ public class FenetreJeu extends JFrame implements IObservable {
 		panelDemineur = new JPanel();
 		this.add(panelDemineur, BorderLayout.CENTER);
 
-        JButton bScore = new JButton("Scores");
+        JButton bScore = new JButton("Scores Locaux");
+        bScore.setActionCommand("SL");
         bScore.addActionListener(monCt);
+        JButton bScoreBdd = new JButton("Scores Globaux");
+        bScoreBdd.setActionCommand("SG");
+        bScoreBdd.addActionListener(monCt);
         JPanel pMontre = new JPanel();
         pMontre.add(bScore);
+        pMontre.add(bScoreBdd);
         pMontre.add(lTemps);
         this.add(pMontre, BorderLayout.SOUTH);
 
@@ -188,10 +192,24 @@ public class FenetreJeu extends JFrame implements IObservable {
 	}
 
     public void afficheScores(String s){
-        JFrame popup = new JFrame("Tableau des scores");
+        JFrame popup = new JFrame("Tableau des scores locaux");
         JPanel pan = new JPanel();
         JTextArea texte = new JTextArea(10,34);
         texte.setText(s);
+        texte.setEditable(false);
+        pan.add(texte);
+        popup.add(pan);
+        popup.pack();
+        popup.setSize(400, 550);
+        popup.setVisible(true);
+    }
+
+    public void afficheScoreBdd(String s){
+        JFrame popup = new JFrame("Tableau des scores globaux");
+        JPanel pan = new JPanel();
+        JTextArea texte = new JTextArea(10,34);
+        texte.setText(s);
+        texte.setEditable(false);
         pan.add(texte);
         popup.add(pan);
         popup.pack();
