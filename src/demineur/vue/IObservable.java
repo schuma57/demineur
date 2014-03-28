@@ -12,8 +12,5 @@ public interface IObservable {
 	public void afficheFin(String s);
     public void afficheScores(String s);
     public void afficheScoreBdd(String s);
-    public void chrono();
-    public Timer getTemps();
-    public int getMinute();
-    public int getSeconde();
+    public void afficheTemps(int minute, int seconde);
 }

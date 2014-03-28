@@ -51,9 +51,10 @@ public class HighscoreManager {
         loadScoreFile();
         parties.add(p);
         updateScoreFile();
+        ajoutBDD(p);
     }
 
-    public void loadScoreFile() {
+    private void loadScoreFile() {
         try {
             inputStream = new ObjectInputStream(new FileInputStream(fich));
             parties = (ArrayList<Partie>) inputStream.readObject();
@@ -75,7 +76,7 @@ public class HighscoreManager {
         }
     }
 
-    public void updateScoreFile() {
+    private void updateScoreFile() {
         try {
             outputStream = new ObjectOutputStream(new FileOutputStream(fich));
             outputStream.writeObject(parties);
@@ -130,8 +131,7 @@ public class HighscoreManager {
                     par[10].add(arr.get(y)); break;
             }
         }
-
-        return par;
+        return par; //on retour le tableau d'arraylist trié par taille de demineur
     }
 
 
@@ -140,8 +140,6 @@ public class HighscoreManager {
         int max = NB_SCORE;
 
         ArrayList<Partie> par[] = trierParties(getParties());
-
-        highscoreString += "Rang\tNom\tTaille\tTemps\n";
 
         //on affiche les scores par taille croissante
         for(int y = 0 ; y <= (TAILLE_MAX - TAILLE_MIN) ; y++){
@@ -152,11 +150,14 @@ public class HighscoreManager {
                 x = max;
             }
 
+            if(x > 0)
+                highscoreString += " Rang\tNom\tTaille\tTemps \n";
             while (i < x) {
                 highscoreString += (i + 1) +".\t" + par[y].get(i).toString();
                 i++;
             }
-            highscoreString +="\n";
+            if(x>0)
+                highscoreString +="\n\n";
         }
 
         return highscoreString;
@@ -168,8 +169,6 @@ public class HighscoreManager {
 
         ArrayList<Partie> par[] = trierParties(getPartGlobal());
 
-        highscoreString += "Rang\tNom\tTaille\tTemps\n";
-
         //on affiche les scores par taille croissante
         for(int y = 0 ; y <= (TAILLE_MAX - TAILLE_MIN) ; y++){
 
@@ -179,18 +178,20 @@ public class HighscoreManager {
                 x = max;
             }
 
+            if(x > 0)
+                highscoreString += " Rang\tNom\tTaille\tTemps \n";
             while (i < x) {
                 highscoreString += (i + 1) +".\t" + par[y].get(i).toString();
                 i++;
             }
-            highscoreString +="\n";
+            if(x>0)
+                highscoreString +="\n\n";
         }
 
         return highscoreString;
     }
 
-    //TODO, fonctionne
-    public void ajoutBDD(Partie p){
+    private void ajoutBDD(Partie p){
         try {
             Connection co = ConnexionBDD.getInstance();
             PreparedStatement stat = co.prepareStatement
@@ -204,8 +205,7 @@ public class HighscoreManager {
         }
     }
 
-    //TODO, fonctionne
-    public void lireBDD(){
+    private void lireBDD(){
         String s = "";
         try{
             Connection conn = ConnexionBDD.getInstance();

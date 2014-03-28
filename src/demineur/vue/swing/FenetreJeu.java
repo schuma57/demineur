@@ -17,10 +17,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 	private CtrlDemineur monCt;
     private JSpinner jsTaille;
     private JTextField jtfNom;
-    private int minute,seconde;
-    private JLabel lTemps = new JLabel(""+minute+":"+seconde);
-    private ActionListener tache_timer;
-    private Timer temps;
+    private JLabel lTemps = new JLabel();
 
 	private CaseDemineur[][] cases;
 	private JPanel panelDemineur;
@@ -130,7 +127,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 			}
 		}
 
-		if (monCt.isPerdu() ) {
+		if (monCt.isPerdu() || monCt.getModele().gagne()) {
 			for (int i = 0; i < taille ; i++) {
 				for (int j = 0; j < taille ; j++) {
 					cases[i][j].removeMouseListener(monCt);
@@ -140,38 +137,6 @@ public class FenetreJeu extends JFrame implements IObservable {
 		return pTable;
 	}
 
-    public void chrono(){
-        minute = 0;
-        seconde = 0;
-        final long tempsDebut = System.currentTimeMillis();
-
-        if(temps != null)
-            temps.stop();
-        tache_timer= new ActionListener()  {
-            public void actionPerformed(ActionEvent e1)  {
-                long tempsActuel = System.currentTimeMillis();
-                seconde = (int) ((tempsActuel - tempsDebut) /1000 % 60 );
-                minute = (int) ((tempsActuel - tempsDebut) /60000 );
-
-                //Afficher le chrono dans un JLabel
-                lTemps.setText(minute+":"+seconde);
-            }
-        };
-        temps=new Timer(1000,tache_timer);
-        temps.start();
-    }
-
-    public int getMinute() {
-        return minute;
-    }
-
-    public int getSeconde() {
-        return seconde;
-    }
-
-    public Timer getTemps(){
-        return temps;
-    }
 
 	public int getTailleSaisie() {
         return (Integer) jsTaille.getValue();
@@ -191,29 +156,18 @@ public class FenetreJeu extends JFrame implements IObservable {
         popup.showMessageDialog(null, s, "Fin partie", JOptionPane.WARNING_MESSAGE);
 	}
 
+    public void afficheTemps(int minute, int seconde){
+        //Afficher le chrono dans un JLabel
+        lTemps.setText(" " +minute+":"+seconde);
+    }
+
     public void afficheScores(String s){
-        JFrame popup = new JFrame("Tableau des scores locaux");
-        JPanel pan = new JPanel();
-        JTextArea texte = new JTextArea(10,34);
-        texte.setText(s);
-        texte.setEditable(false);
-        pan.add(texte);
-        popup.add(pan);
-        popup.pack();
-        popup.setSize(400, 550);
-        popup.setVisible(true);
+        FenetreScore popup = new FenetreScore("Tableau des scores locaux");
+        popup.getJTexte().setText(s);
     }
 
     public void afficheScoreBdd(String s){
-        JFrame popup = new JFrame("Tableau des scores globaux");
-        JPanel pan = new JPanel();
-        JTextArea texte = new JTextArea(10,34);
-        texte.setText(s);
-        texte.setEditable(false);
-        pan.add(texte);
-        popup.add(pan);
-        popup.pack();
-        popup.setSize(400, 550);
-        popup.setVisible(true);
+        FenetreScore popup = new FenetreScore("Tableau des scores globaux");
+        popup.getJTexte().setText(s);
     }
 }

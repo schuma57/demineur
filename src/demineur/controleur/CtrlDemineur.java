@@ -9,12 +9,16 @@ import demineur.highscores.HighscoreManager;
 import demineur.vue.IObservable;
 import demineur.vue.swing.CaseDemineur;
 
+import javax.swing.*;
+
 public class CtrlDemineur implements ActionListener, MouseListener {
 	private Demineur modele;
 	private IObservable vue;
 	private boolean perdu;
     private HighscoreManager hs = new HighscoreManager();
-
+    private int minute,seconde;
+    private ActionListener tache_timer;
+    private Timer temps;
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -27,9 +31,8 @@ public class CtrlDemineur implements ActionListener, MouseListener {
                 vue.afficheErreur(e.getMessage());
             }
             perdu = false;
-            vue.chrono();
+            chrono();
 			vue.afficheModele();
-            hs.lireBDD();
 		}
 
         if (s.equals("SL")){
@@ -52,6 +55,26 @@ public class CtrlDemineur implements ActionListener, MouseListener {
 		return perdu;
 	}
 
+    public void chrono(){
+        minute = 0;
+        seconde = 0;
+        final long tempsDebut = System.currentTimeMillis();
+
+        if(temps != null)
+            temps.stop();
+        tache_timer= new ActionListener()  {
+            public void actionPerformed(ActionEvent e1)  {
+                long tempsActuel = System.currentTimeMillis();
+                seconde = (int) ((tempsActuel - tempsDebut) /1000 % 60 );
+                minute = (int) ((tempsActuel - tempsDebut) /60000 );
+
+                vue.afficheTemps(minute, seconde);
+            }
+        };
+        temps = new Timer(1000,tache_timer);
+        temps.start();
+    }
+
 	@Override
 	public void mousePressed(MouseEvent ev) {
 		Object o = ev.getSource();
@@ -68,11 +91,11 @@ public class CtrlDemineur implements ActionListener, MouseListener {
             vue.afficheModele();
 
             if (modele.gagne()){
-                vue.getTemps().stop();
-                modele.getPartieC().setSecondes(vue.getSeconde() + vue.getMinute()*60);
+                temps.stop();
+                modele.getPartieC().setSecondes(seconde + minute*60);
 
                 vue.afficheFin("Bravo, " +modele.getPartieC().getNomJoueur() +" " +
-                        "\nGagne en : " +vue.getMinute() +" min " +vue.getSeconde() +" sec");
+                        "\nGagne en : " +minute +" min " +seconde +" sec");
 
                 hs.addScore(modele.getPartieC() );
             }
@@ -85,18 +108,17 @@ public class CtrlDemineur implements ActionListener, MouseListener {
             vue.afficheModele();
 
             if (modele.gagne()){
-                vue.getTemps().stop();
-                modele.getPartieC().setSecondes(vue.getSeconde() + vue.getMinute()*60);
+                temps.stop();
+                modele.getPartieC().setSecondes(seconde + minute*60);
 
                 vue.afficheFin("Bravo, " +modele.getPartieC().getNomJoueur() +" " +
-                        "\nGagne en : " +vue.getMinute() +" min " +vue.getSeconde() +" sec");
+                        "\nGagne en : " +minute +" min " +seconde +" sec");
 
                 hs.addScore(modele.getPartieC() );
-                hs.ajoutBDD(modele.getPartieC());
             }
 
 			if (perdu) {
-                vue.getTemps().stop();
+                temps.stop();
 				vue.afficheFin("Boum ! " +modele.getPartieC().getNomJoueur() +" Perd !!");
 			}
 		}
