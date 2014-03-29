@@ -1,10 +1,8 @@
 package demineur.controleur;
 
 import java.awt.event.*;
-import java.io.IOException;
 
 import demineur.Demineur;
-import demineur.Partie;
 import demineur.highscores.HighscoreManager;
 import demineur.vue.IObservable;
 import demineur.vue.swing.CaseDemineur;
@@ -94,8 +92,8 @@ public class CtrlDemineur implements ActionListener, MouseListener {
                 temps.stop();
                 modele.getPartieC().setSecondes(seconde + minute*60);
 
-                vue.afficheFin("Bravo, " +modele.getPartieC().getNomJoueur() +" " +
-                        "\nGagne en : " +minute +" min " +seconde +" sec");
+                vue.choixContinuer(vue.afficheFin("Bravo, " +modele.getPartieC().getNomJoueur() +" " +
+                        "\nGagne en : " +minute +" min " +seconde +" sec"));
 
                 hs.addScore(modele.getPartieC() );
             }
@@ -111,15 +109,15 @@ public class CtrlDemineur implements ActionListener, MouseListener {
                 temps.stop();
                 modele.getPartieC().setSecondes(seconde + minute*60);
 
-                vue.afficheFin("Bravo, " +modele.getPartieC().getNomJoueur() +" " +
-                        "\nGagne en : " +minute +" min " +seconde +" sec");
+                vue.choixContinuer(vue.afficheFin("Bravo, " +modele.getPartieC().getNomJoueur() +" " +
+                        "\nGagne en : " +minute +" min " +seconde +" sec"));
 
                 hs.addScore(modele.getPartieC() );
             }
 
 			if (perdu) {
                 temps.stop();
-				vue.afficheFin("Boum ! " +modele.getPartieC().getNomJoueur() +" Perd !!");
+				vue.choixContinuer(vue.afficheFin("Boum ! " +modele.getPartieC().getNomJoueur() +" Perd !!"));
 			}
 		}
 	}

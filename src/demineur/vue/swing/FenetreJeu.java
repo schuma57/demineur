@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -72,7 +70,7 @@ public class FenetreJeu extends JFrame implements IObservable {
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		this.pack();
-		this.setSize(500, 500);
+		this.setSize(600, 600);
         this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
@@ -151,23 +149,28 @@ public class FenetreJeu extends JFrame implements IObservable {
         popup.showMessageDialog(null, s, "Erreur", JOptionPane.ERROR_MESSAGE);
 	}
 
-	public void afficheFin(String s) {
-        JOptionPane popup = new JOptionPane();
-        popup.showMessageDialog(null, s, "Fin partie", JOptionPane.WARNING_MESSAGE);
+	public int afficheFin(String s) {
+        int a= JOptionPane.showConfirmDialog(null, s+"\n\nContinuer ?", "Fin de partie",JOptionPane.YES_NO_OPTION);
+        return a;
 	}
 
     public void afficheTemps(int minute, int seconde){
         //Afficher le chrono dans un JLabel
-        lTemps.setText(" " +minute+":"+seconde);
+        lTemps.setText(" " +minute+":"+seconde +" sec.");
     }
 
     public void afficheScores(String s){
-        FenetreScore popup = new FenetreScore("Tableau des scores locaux");
-        popup.getJTexte().setText(s);
+        FenetreScore fen = new FenetreScore("Tableau des scores locaux");
+        fen.getJTexte().setText(s);
     }
 
     public void afficheScoreBdd(String s){
-        FenetreScore popup = new FenetreScore("Tableau des scores globaux");
-        popup.getJTexte().setText(s);
+        FenetreScore fen = new FenetreScore("Tableau des scores globaux");
+        fen.getJTexte().setText(s);
+    }
+
+    public void choixContinuer(int i) {
+        if(i != 0)
+           System.exit(0);
     }
 }

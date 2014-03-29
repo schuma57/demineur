@@ -9,8 +9,9 @@ public interface IObservable {
     public String getNomSaisie();
 	public void afficheErreur(String s);
 	public void afficheModele();
-	public void afficheFin(String s);
+	public int afficheFin(String s);
     public void afficheScores(String s);
     public void afficheScoreBdd(String s);
     public void afficheTemps(int minute, int seconde);
+    public void choixContinuer(int i);
 }
